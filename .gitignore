@@ -45,3 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+# Directories excluded from project
+Collections.iml
+out/
+.idea/
+src/test/
