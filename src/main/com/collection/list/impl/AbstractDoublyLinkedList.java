@@ -1,5 +1,7 @@
 package main.com.collection.list.impl;
 
+import main.com.collection.AbstractCollection;
+
 import java.util.NoSuchElementException;
 
 /**

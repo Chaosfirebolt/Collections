@@ -1,32 +1,32 @@
-package main.com.collection.list.impl;
+package main.com.collection;
 
 /**
  * Created by ChaosFire on 30.6.2017 г
  */
-abstract class AbstractCollection {
+public abstract class AbstractCollection {
 
     private static final int INITIAL_SIZE = 0;
 
     private int size;
 
-    AbstractCollection() {
+    protected AbstractCollection() {
         super();
         this.setSize(INITIAL_SIZE);
     }
 
-    void incrementSize() {
+    protected void incrementSize() {
         this.size++;
     }
 
-    void decrementSize() {
+    protected void decrementSize() {
         this.size--;
     }
 
-    void clearSize() {
+    protected void clearSize() {
         this.setSize(INITIAL_SIZE);
     }
 
-    int getSize() {
+    protected int getSize() {
         return this.size;
     }
 
