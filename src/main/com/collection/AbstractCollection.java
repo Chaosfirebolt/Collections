@@ -18,8 +18,16 @@ public abstract class AbstractCollection {
         this.size++;
     }
 
+    protected void incrementSize(int incrementation) {
+        this.size += incrementation;
+    }
+
     protected void decrementSize() {
         this.size--;
+    }
+
+    protected void decrementSize(int reduction) {
+        this.size -= reduction;
     }
 
     protected void clearSize() {
