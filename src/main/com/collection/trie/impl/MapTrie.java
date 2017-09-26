@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by ChaosFire on 9.9.2017 г.
  */
-public class MapTrie<V> extends AbstractCollection implements Trie<V>, Iterable<V> {
+public class MapTrie<V> extends AbstractCollection implements Trie<V> {
 
     private Node<V> root;
 
@@ -145,6 +145,7 @@ public class MapTrie<V> extends AbstractCollection implements Trie<V>, Iterable<
         return new ValueIterator<>(this.size(), this.root);
     }
 
+    @Override
     public Iterator<String> keyIterator() {
         return new KeyIterator<>(this.size(), this.root);
     }
