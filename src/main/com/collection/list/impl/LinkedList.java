@@ -116,6 +116,7 @@ public class LinkedList<T> extends AbstractDoublyLinkedList<T> implements LinkLi
         return new AscListIterator<>(super.getFirstNode());
     }
 
+    @Override
     public Iterator<T> descendingIterator() {
         return new DescListIterator<>(super.getLastNode());
     }

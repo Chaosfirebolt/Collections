@@ -124,6 +124,7 @@ public class MapLinkedList<T> extends AbstractDoublyLinkedList<T> implements Lin
         return new AscListIterator<>(super.getFirstNode());
     }
 
+    @Override
     public Iterator<T> descendingIterator() {
         return new DescListIterator<>(super.getLastNode());
     }

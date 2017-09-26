@@ -187,6 +187,7 @@ public class ArrayList<T> extends AbstractCollection implements IndexList<T> {
         return new AscArrayIterator<>(this.array, this.startIndex, this.startIndex, this.size() + this.offset);
     }
 
+    @Override
     public Iterator<T> descendingIterator() {
         this.modCount.validate();
         int size = this.size() + this.offset;
