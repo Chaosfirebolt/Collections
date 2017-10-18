@@ -7,36 +7,47 @@ import java.util.Iterator;
  */
 abstract class AbstractArrayIterator<T> implements Iterator<T> {
 
-    private T[] array;
+    private ArrayList<T> arrayList;
     private int currentIndex;
     private int startIndex;
     private int endIndex;
+    private int expectedModCount;
 
-    AbstractArrayIterator(T[] array, int currentIndex, int startIndex, int endIndex) {
-        this.setArray(array);
+    AbstractArrayIterator(ArrayList<T> arrayList, int currentIndex, int startIndex, int endIndex, int expectedModCount) {
+        this.setArrayList(arrayList);
         this.setCurrentIndex(currentIndex);
         this.setStartIndex(startIndex);
         this.setEndIndex(endIndex);
+        this.setExpectedModCount(expectedModCount);
     }
 
     boolean isIndexValid() {
         return this.currentIndex >= this.startIndex && this.currentIndex < this.endIndex;
     }
 
-    void incrementCurrentIndex() {
-        this.currentIndex++;
+    void removePrevious(int toPrev) {
+        try {
+            this.arrayList.remove(this.currentIndex + toPrev);
+            this.expectedModCount++;
+        } catch (IndexOutOfBoundsException exc) {
+            throw new IllegalStateException();
+        }
     }
 
-    void decrementCurrentIndex() {
-        this.currentIndex--;
+    void validateState() {
+        this.arrayList.getModCount().validate(this.expectedModCount);
+    }
+
+    void changeCurrentIndex(int change) {
+        this.currentIndex += change;
     }
 
     T getCurrentValue() {
-        return this.array[this.currentIndex];
+        return this.arrayList.getArray()[this.currentIndex];
     }
 
-    private void setArray(T[] array) {
-        this.array = array;
+    private void setArrayList(ArrayList<T> arrayList) {
+        this.arrayList = arrayList;
     }
 
     private void setCurrentIndex(int currentIndex) {
@@ -49,5 +60,9 @@ abstract class AbstractArrayIterator<T> implements Iterator<T> {
 
     private void setEndIndex(int endIndex) {
         this.endIndex = endIndex;
+    }
+
+    private void setExpectedModCount(int expectedModCount) {
+        this.expectedModCount = expectedModCount;
     }
 }

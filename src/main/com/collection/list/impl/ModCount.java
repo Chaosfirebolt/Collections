@@ -37,6 +37,16 @@ class ModCount {
         }
     }
 
+    void validate(int expectedCount) {
+        if (this.count != expectedCount) {
+            throw new ConcurrentModificationException();
+        }
+    }
+
+    int getCount() {
+        return this.count;
+    }
+
     private void setCount(int count) {
         this.count = count;
     }

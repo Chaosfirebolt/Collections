@@ -184,14 +184,14 @@ public class ArrayList<T> extends AbstractCollection implements IndexList<T> {
     @Override
     public Iterator<T> iterator() {
         this.modCount.validate();
-        return new AscArrayIterator<>(this.array, this.startIndex, this.startIndex, this.size() + this.offset);
+        return new AscArrayIterator<>(this, this.startIndex, this.startIndex, this.size() + this.offset, this.modCount.getCount());
     }
 
     @Override
     public Iterator<T> descendingIterator() {
         this.modCount.validate();
         int size = this.size() + this.offset;
-        return new DescArrayIterator<>(this.array, size - 1, this.startIndex, size);
+        return new DescArrayIterator<>(this, size - 1, this.startIndex, size, this.modCount.getCount());
     }
 
     private int find(T element) {
@@ -281,6 +281,14 @@ public class ArrayList<T> extends AbstractCollection implements IndexList<T> {
             current = current.parent;
         }
         return current.size();
+    }
+
+    T[] getArray() {
+        return this.array;
+    }
+
+    ModCount getModCount() {
+        return this.modCount;
     }
 
     private void setArray(T[] array) {

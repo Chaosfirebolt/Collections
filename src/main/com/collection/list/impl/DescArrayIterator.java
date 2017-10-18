@@ -5,8 +5,10 @@ package main.com.collection.list.impl;
  */
 class DescArrayIterator<T> extends AbstractArrayIterator<T> {
 
-    DescArrayIterator(T[] array, int currentIndex, int startIndex, int endIndex) {
-        super(array, currentIndex, startIndex, endIndex);
+    private static final int INDEX_CHANGE = -1;
+
+    DescArrayIterator(ArrayList<T> arrayList, int currentIndex, int startIndex, int endIndex, int expectedModCount) {
+        super(arrayList, currentIndex, startIndex, endIndex, expectedModCount);
     }
 
     @Override
@@ -16,8 +18,14 @@ class DescArrayIterator<T> extends AbstractArrayIterator<T> {
 
     @Override
     public T next() {
+        super.validateState();
         T value = super.getCurrentValue();
-        super.decrementCurrentIndex();
+        super.changeCurrentIndex(INDEX_CHANGE);
         return value;
+    }
+
+    @Override
+    public void remove() {
+        super.removePrevious(1);
     }
 }
