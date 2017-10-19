@@ -7,8 +7,8 @@ import java.util.Iterator;
  */
 class KeyIterator<V> extends AbstractTrieIterator<V> implements Iterator<String> {
 
-    KeyIterator(int count, Node<V> node) {
-        super(count, node);
+    KeyIterator(int count, Node<V> node, int expectedModCount, MapTrie<V> trie) {
+        super(count, node, expectedModCount, trie);
     }
 
     @Override
@@ -19,5 +19,10 @@ class KeyIterator<V> extends AbstractTrieIterator<V> implements Iterator<String>
     @Override
     public String next() {
         return super.nextPair().getKey();
+    }
+
+    @Override
+    public void remove() {
+        super.removePair();
     }
 }

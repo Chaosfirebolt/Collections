@@ -7,8 +7,8 @@ import java.util.Iterator;
  */
 class ValueIterator<V> extends AbstractTrieIterator<V> implements Iterator<V> {
 
-    ValueIterator(int count, Node<V> node) {
-        super(count, node);
+    ValueIterator(int count, Node<V> node, int expectedModCount, MapTrie<V> trie) {
+        super(count, node, expectedModCount, trie);
     }
 
     @Override
@@ -19,5 +19,10 @@ class ValueIterator<V> extends AbstractTrieIterator<V> implements Iterator<V> {
     @Override
     public V next() {
         return super.nextPair().getNode().getValue();
+    }
+
+    @Override
+    public void remove() {
+        super.removePair();
     }
 }
