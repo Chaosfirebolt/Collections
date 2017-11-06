@@ -63,6 +63,6 @@ public class PriorityQueue<T> extends AbstractMinBinaryHeap<T> implements Queue<
 
     @Override
     public Iterator<T> iterator() {
-        return super.heapIterator();
+        return new PriorityQueueIterator<>(super.heapIterator());
     }
 }
