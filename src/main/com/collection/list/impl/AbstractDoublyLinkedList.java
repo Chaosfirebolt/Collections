@@ -11,14 +11,16 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
 
     private Node<T> firstNode;
     private Node<T> lastNode;
+    private ModCount modCount;
 
     AbstractDoublyLinkedList() {
-        super();
+        this.setModCount(new ModCount());
     }
 
     void clearConnections() {
         this.setFirstNode(null);
         this.setLastNode(null);
+        this.modCount.incrementCount();
     }
 
     Node<T> linkFirst(T value) {
@@ -28,6 +30,7 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
         } else {
             this.linkFirstNode(newNode);
         }
+        this.modCount.incrementCount();
         return newNode;
     }
 
@@ -38,6 +41,7 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
         } else {
             this.linkLastNode(newNode);
         }
+        this.modCount.incrementCount();
         return newNode;
     }
 
@@ -47,18 +51,26 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
         if (prev == null && next == null) {
             this.setFirstNode(null);
             this.setLastNode(null);
+            super.decrementSize();
+            this.modCount.incrementCount();
             return;
         }
         if (prev == null) {
             this.unlinkFirst(next);
+            super.decrementSize();
+            this.modCount.incrementCount();
             return;
         }
         if (next == null) {
             this.unlinkLast(prev);
+            super.decrementSize();
+            this.modCount.incrementCount();
             return;
         }
         prev.setNext(next);
         next.setPrev(prev);
+        super.decrementSize();
+        this.modCount.incrementCount();
     }
 
     private void unlinkFirst(Node<T> node) {
@@ -95,7 +107,6 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
     Node<T> removeNodeByIndex(int index) {
         Node<T> node = this.findNodeByIndex(index);
         this.unlink(node);
-        super.decrementSize();
         return node;
     }
 
@@ -154,5 +165,13 @@ abstract class AbstractDoublyLinkedList<T> extends AbstractCollection {
 
     private void setLastNode(Node<T> lastNode) {
         this.lastNode = lastNode;
+    }
+
+    ModCount getModCount() {
+        return this.modCount;
+    }
+
+    private void setModCount(ModCount modCount) {
+        this.modCount = modCount;
     }
 }

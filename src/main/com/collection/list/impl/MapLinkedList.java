@@ -45,7 +45,6 @@ public class MapLinkedList<T> extends AbstractDoublyLinkedList<T> implements Lin
         super.unlink(node);
         T value = node.getValue();
         this.valueNodeMap.get(value).removeFirst();
-        super.decrementSize();
         return value;
     }
 
@@ -56,7 +55,6 @@ public class MapLinkedList<T> extends AbstractDoublyLinkedList<T> implements Lin
         super.unlink(node);
         T value = node.getValue();
         this.valueNodeMap.get(value).removeLast();
-        super.decrementSize();
         return value;
     }
 
@@ -97,7 +95,6 @@ public class MapLinkedList<T> extends AbstractDoublyLinkedList<T> implements Lin
         }
         Node<T> node = list.removeFirst();
         super.unlink(node);
-        super.decrementSize();
         return true;
     }
 
@@ -121,12 +118,12 @@ public class MapLinkedList<T> extends AbstractDoublyLinkedList<T> implements Lin
 
     @Override
     public Iterator<T> iterator() {
-        return new AscListIterator<>(super.getFirstNode());
+        return new AscListIterator<>(super.getFirstNode(), this, super.getModCount());
     }
 
     @Override
     public Iterator<T> descendingIterator() {
-        return new DescListIterator<>(super.getLastNode());
+        return new DescListIterator<>(super.getLastNode(), this, super.getModCount());
     }
 
     private void addToMap(T element, Node<T> node) {
