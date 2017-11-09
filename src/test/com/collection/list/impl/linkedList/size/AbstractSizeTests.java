@@ -3,6 +3,9 @@ package test.com.collection.list.impl.linkedList.size;
 import main.com.collection.list.contract.LinkList;
 import org.junit.Test;
 
+import java.util.Iterator;
+import java.util.Random;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -63,6 +66,79 @@ public abstract class AbstractSizeTests {
             expected--;
             int actual = this.testList.size();
             assertEquals(expected, actual);
+        }
+    }
+
+    @Test
+    public void removeAllElementsNormalIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        Iterator<Integer> iterator = this.testList.iterator();
+        while (iterator.hasNext()) {
+            iterator.next();
+            iterator.remove();
+        }
+        int expectedSize = 0;
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    @Test
+    public void removeAllElementsReverseIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        Iterator<Integer> iterator = this.testList.descendingIterator();
+        while (iterator.hasNext()) {
+            iterator.next();
+            iterator.remove();
+        }
+        int expectedSize = 0;
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    @Test
+    public void removeElementsDuringNormalIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        int toRemove = 4;
+        int expectedSize = this.testList.size() - toRemove;
+        Iterator<Integer> iterator = this.testList.iterator();
+        this.removeElements(iterator, toRemove);
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    @Test
+    public void removeElementsDuringReverseIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        int toRemove = 4;
+        int expectedSize = this.testList.size() - toRemove;
+        Iterator<Integer> iterator = this.testList.descendingIterator();
+        this.removeElements(iterator, toRemove);
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    @Test
+    public void removeRandomNumberOfElementsDuringNormalIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        int toRemove = new Random().nextInt(this.testList.size()) + 1;
+        int expectedSize = this.testList.size() - toRemove;
+        this.removeElements(this.testList.iterator(), toRemove);
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    @Test
+    public void removeRandomNumberOfElementsDuringReverseIteration_SizeShouldBeCorrect() {
+        this.addElements();
+        int toRemove = new Random().nextInt(this.testList.size()) + 1;
+        int expectedSize = this.testList.size() - toRemove;
+        this.removeElements(this.testList.descendingIterator(), toRemove);
+        assertEquals(expectedSize, this.testList.size());
+    }
+
+    private void removeElements(Iterator<Integer> iterator, int toRemove) {
+        int removed = 0;
+        while (iterator.hasNext()) {
+            iterator.next();
+            if (removed < toRemove) {
+                iterator.remove();
+                removed++;
+            }
         }
     }
 }

@@ -85,6 +85,7 @@ public class MapTrieInsertTests {
         this.values.add(v9);
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void insertElement_CheckKeys_ShouldBeInserted() {
         this.keys.sort(Comparator.naturalOrder());
@@ -112,5 +113,21 @@ public class MapTrieInsertTests {
             int actual = actualValues.get(index);
             assertEquals(expected, actual);
         }
+    }
+
+    @Test
+    public void insertExistingKey_ShouldReplaceValue() {
+        Integer oldVal = 1;
+        int newVal = 11;
+        this.trie.insert("ivan", newVal);
+        this.values.remove(oldVal);
+        this.values.add(newVal);
+        List<Integer> actualValues = new ArrayList<>();
+        for (Integer integer : this.trie) {
+            actualValues.add(integer);
+        }
+        actualValues.sort(Comparator.naturalOrder());
+        this.values.sort(Comparator.naturalOrder());
+        assertEquals(Helper.printCollection(this.values), Helper.printCollection(actualValues));
     }
 }

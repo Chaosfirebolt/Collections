@@ -5,8 +5,8 @@ package main.com.collection.list.impl;
  */
 class AscListIterator<T> extends AbstractListIterator<T> {
 
-    AscListIterator(Node<T> node) {
-        super(node);
+    AscListIterator(Node<T> node, AbstractDoublyLinkedList<T> list, ModCount modCount) {
+        super(node, list, modCount);
     }
 
     @Override
@@ -16,8 +16,15 @@ class AscListIterator<T> extends AbstractListIterator<T> {
 
     @Override
     public T next() {
+        super.validateModCount();
         T value = super.getNode().getValue();
+        super.setLastNode(super.getNode());
         super.setNode(super.getNode().getNext());
         return value;
+    }
+
+    @Override
+    public void remove() {
+        super.unlinkPrevNode();
     }
 }

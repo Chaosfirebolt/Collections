@@ -30,7 +30,6 @@ public class LinkedList<T> extends AbstractDoublyLinkedList<T> implements LinkLi
         super.validateHasElements();
         Node<T> node = super.getFirstNode();
         super.unlink(node);
-        super.decrementSize();
         return node.getValue();
     }
 
@@ -39,7 +38,6 @@ public class LinkedList<T> extends AbstractDoublyLinkedList<T> implements LinkLi
         super.validateHasElements();
         Node<T> node = super.getLastNode();
         super.unlink(node);
-        super.decrementSize();
         return node.getValue();
     }
 
@@ -80,7 +78,6 @@ public class LinkedList<T> extends AbstractDoublyLinkedList<T> implements LinkLi
             if (element.equals(node.getValue())) {
                 removed = true;
                 super.unlink(node);
-                super.decrementSize();
                 break;
             }
             node = node.getNext();
@@ -113,11 +110,11 @@ public class LinkedList<T> extends AbstractDoublyLinkedList<T> implements LinkLi
 
     @Override
     public Iterator<T> iterator() {
-        return new AscListIterator<>(super.getFirstNode());
+        return new AscListIterator<>(super.getFirstNode(), this, super.getModCount());
     }
 
     @Override
     public Iterator<T> descendingIterator() {
-        return new DescListIterator<>(super.getLastNode());
+        return new DescListIterator<>(super.getLastNode(), this, super.getModCount());
     }
 }

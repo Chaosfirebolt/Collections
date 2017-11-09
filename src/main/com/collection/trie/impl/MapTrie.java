@@ -13,16 +13,19 @@ import java.util.Map;
  */
 public class MapTrie<V> extends AbstractCollection implements Trie<V> {
 
+    private static final int INITIAL_COUNT = 0;
+
     private Node<V> root;
+    private int modCount;
 
     public MapTrie() {
         this.setRoot(new Node<>(false));
+        this.setModCount(INITIAL_COUNT);
     }
 
     @Override
     public void insert(String key, V value) {
         this.add(key, value);
-        super.incrementSize();
     }
 
     private void add(String key, V value) {
@@ -41,7 +44,13 @@ public class MapTrie<V> extends AbstractCollection implements Trie<V> {
         if (lastNode == null) {
             lastNode = new Node<>(value);
             next.put(lastChar, lastNode);
+            super.incrementSize();
+            this.modCount++;
         } else {
+            if (!lastNode.isTerminal()) {
+                super.incrementSize();
+                this.modCount++;
+            }
             lastNode.setValue(value);
             lastNode.setTerminal(true);
         }
@@ -57,6 +66,7 @@ public class MapTrie<V> extends AbstractCollection implements Trie<V> {
         node.setTerminal(false);
         node.setValue(null);
         super.decrementSize();
+        this.modCount++;
         return value;
     }
 
@@ -133,6 +143,7 @@ public class MapTrie<V> extends AbstractCollection implements Trie<V> {
     public void clear() {
         this.root.getNext().clear();
         super.clearSize();
+        this.modCount++;
     }
 
     @Override
@@ -142,15 +153,23 @@ public class MapTrie<V> extends AbstractCollection implements Trie<V> {
 
     @Override
     public Iterator<V> iterator() {
-        return new ValueIterator<>(this.size(), this.root);
+        return new ValueIterator<>(this.size(), this.root, this.modCount, this);
     }
 
     @Override
     public Iterator<String> keyIterator() {
-        return new KeyIterator<>(this.size(), this.root);
+        return new KeyIterator<>(this.size(), this.root, this.modCount, this);
     }
 
     private void setRoot(Node<V> root) {
         this.root = root;
+    }
+
+    int getModCount() {
+        return this.modCount;
+    }
+
+    private void setModCount(int modCount) {
+        this.modCount = modCount;
     }
 }
