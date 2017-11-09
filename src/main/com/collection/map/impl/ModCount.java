@@ -10,14 +10,14 @@ class ModCount {
     private static final int DEFAULT_COUNT = 0;
     private static final int DEFAULT_EXPECTED_COUNT = -1;
 
-    private int modCount;
+    private int count;
     private ModCount parentModCount;
-    private int expectedModCount;
+    private int expectedParentCount;
 
-    private ModCount(int modCount, ModCount parentModCount, int expectedModCount) {
-        this.setModCount(modCount);
+    private ModCount(int count, ModCount parentModCount, int expectedParentCount) {
+        this.setCount(count);
         this.setParentModCount(parentModCount);
-        this.setExpectedModCount(expectedModCount);
+        this.setExpectedParentCount(expectedParentCount);
     }
 
     ModCount() {
@@ -25,36 +25,32 @@ class ModCount {
     }
 
     ModCount(ModCount parentModCount) {
-        this(DEFAULT_COUNT, parentModCount, DEFAULT_EXPECTED_COUNT);
+        this(DEFAULT_COUNT, parentModCount, parentModCount.count);
     }
 
-    void updateCount() {
-        this.modCount++;
+    int getCount() {
+        return this.count;
     }
 
-    void activateValidation() {
-        this.setExpectedModCount(this.modCount);
-    }
-
-    void deactivateValidation() {
-        this.setExpectedModCount(DEFAULT_EXPECTED_COUNT);
-    }
-
-    void validate() {
-        if (this.expectedModCount != -1 && this.modCount != this.expectedModCount) {
+    void validateParentModCount() {
+        if (this.parentModCount.count != expectedParentCount) {
             throw new ConcurrentModificationException();
         }
     }
 
-    private void setModCount(int modCount) {
-        this.modCount = modCount;
+    void incrementCount() {
+        this.count++;
+    }
+
+    private void setCount(int count) {
+        this.count = count;
     }
 
     private void setParentModCount(ModCount parentModCount) {
         this.parentModCount = parentModCount;
     }
 
-    private void setExpectedModCount(int expectedModCount) {
-        this.expectedModCount = expectedModCount;
+    private void setExpectedParentCount(int expectedParentCount) {
+        this.expectedParentCount = expectedParentCount;
     }
 }

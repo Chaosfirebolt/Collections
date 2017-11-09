@@ -44,7 +44,7 @@ class HashTable<K, V> extends AbstractCollection implements Collection {
             }
             this.table[index].add(pair);
             super.incrementSize();
-            this.modCount.updateCount();
+            this.modCount.incrementCount();
         } else {
             pair.setValue(value);
         }
@@ -64,7 +64,7 @@ class HashTable<K, V> extends AbstractCollection implements Collection {
                 removed = pair;
                 iterator.remove();
                 super.decrementSize();
-                this.modCount.updateCount();
+                this.modCount.incrementCount();
                 break;
             }
         }
@@ -105,7 +105,7 @@ class HashTable<K, V> extends AbstractCollection implements Collection {
             this.table[i] = null;
         }
         super.clearSize();
-        this.modCount.updateCount();
+        this.modCount.incrementCount();
     }
 
     @Override
@@ -114,12 +114,10 @@ class HashTable<K, V> extends AbstractCollection implements Collection {
     }
 
     Iterator<Pair<K, V>> hashTableIterator() {
-        this.modCount.activateValidation();
         return new AscHashTableIterator<>(this,0);
     }
 
     Iterator<Pair<K, V>> descendingHashTableIterator() {
-        this.modCount.activateValidation();
         return new DescHashTableIterator<>(this,this.table.length - 1);
     }
 
