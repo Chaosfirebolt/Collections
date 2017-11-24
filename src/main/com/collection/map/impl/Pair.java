@@ -15,6 +15,11 @@ public class Pair<K, V> {
         this.setValue(value);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s -> %s", this.key.toString(), this.value.toString());
+    }
+
     public K getKey() {
         return this.key;
     }
