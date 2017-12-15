@@ -1,6 +1,7 @@
 package main.com.collection.map.impl;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by ChaosFire on 22.11.2017 г.
@@ -25,10 +26,9 @@ class SubTree<K extends Comparable<K>, V> extends AVLTree<K, V> {
     @Override
     void remove(K key) {
         super.getModCount().validateParentModCount();
-        if (!this.isKeyInBounds(key)) {
-            return;
+        if (this.isKeyInBounds(key)) {
+            super.remove(key);
         }
-        super.remove(key);
     }
 
     @Override
@@ -64,6 +64,16 @@ class SubTree<K extends Comparable<K>, V> extends AVLTree<K, V> {
             toInclusive = true;
         }
         return super.range(fromKey, fromInclusive, toKey, toInclusive);
+    }
+
+    @Override
+    Iterator<Node<Pair<K, V>>> ascIterator() {
+        return super.ascIterator();
+    }
+
+    @Override
+    Iterator<Node<Pair<K, V>>> descIterator() {
+        return super.descIterator();
     }
 
     @Override

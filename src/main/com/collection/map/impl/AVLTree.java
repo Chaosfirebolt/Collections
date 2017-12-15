@@ -4,6 +4,7 @@ import main.com.collection.AbstractCollection;
 import main.com.collection.Collection;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by ChaosFire on 9.11.2017 г.
@@ -257,6 +258,14 @@ class AVLTree<K extends Comparable<K>, V> extends AbstractCollection implements 
             return 1;
         }
         return this.compareKeys(first.getNodeValue().getKey(), second.getNodeValue().getKey());
+    }
+
+    Iterator<Node<Pair<K, V>>> ascIterator() {
+        return new AscTreeIterator<>(this, this.root);
+    }
+
+    Iterator<Node<Pair<K, V>>> descIterator() {
+        return new DescTreeIterator<>(this, this.root);
     }
 
     @Override
